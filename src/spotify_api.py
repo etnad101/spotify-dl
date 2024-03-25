@@ -5,7 +5,7 @@ BASE_URL = "https://api.spotify.com/v1"
 class SpotifyHandler:
 
     def __init__(self, client_id, client_secret):
-        self.token = self._get_access_token(client_id, client_secret)
+        self._token = self._get_access_token(client_id, client_secret)
 
     def _get_access_token(self, client_id, client_secret):
         base_url = "https://accounts.spotify.com/api/token"
@@ -24,29 +24,37 @@ class SpotifyHandler:
             print(f"Error getting access token Code: {status}")
             quit()
 
-    def get_playlist(self, id):
+    def _url_to_id(self, url):
+        id = url.removeprefix("https://open.spotify.com/playlist/")
+        id = id.split("?")
+        return id[0]
+
+
+    def get_playlist(self, playlist_url):
+        id = self._url_to_id(playlist_url)
         songs = []
         query = "market=CA&fields=next, items"
         url = BASE_URL + "/playlists/" + id + "/tracks?" + query
 
         return self.get_playlist_aux(id, songs, url)
 
+
     def get_playlist_aux(self, id, songs, url):
-        
-        header = {"Authorization": f"Bearer {self.token}"}
-        
+
+        header = {"Authorization": f"Bearer {self._token}"}
+
         response = requests.get(url, headers=header)
 
         status = response.status_code
         if status != 200:
             print(f"Error getting access token Code: {status}")
             quit()
-        
+
         tracks = response.json()
 
         for item in tracks["items"]:
             name = item["track"]["name"]
-            artists = [] 
+            artists = []
             for artist in item["track"]["artists"]:
                 artists.append(artist["name"])
 
