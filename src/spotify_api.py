@@ -21,7 +21,8 @@ class SpotifyHandler:
         if status == 200:
             return response.json()["access_token"]
         else:
-            print(f"Error getting access token Code: {status}")
+            print(f"Error getting access token - Code: {status}")
+            print(response)
             quit()
 
     def _url_to_id(self, url):
@@ -47,7 +48,8 @@ class SpotifyHandler:
 
         status = response.status_code
         if status != 200:
-            print(f"Error getting access token Code: {status}")
+            print(f"Error accessing playlist- Code: {status}")
+            print(response.json())
             quit()
 
         tracks = response.json()
