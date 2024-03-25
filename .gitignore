@@ -1,3 +1,4 @@
 .ENV
 src/__pycache__
 .venv
+songs

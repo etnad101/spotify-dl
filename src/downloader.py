@@ -20,8 +20,3 @@ def downlaod_playlist(playlist, outdir):
             print(f"Downloaded: {search_term}")
         else:
             print("ERROR: failed to download '{search_term}'")
-
-
-s = Song('Northern Attitude (with Hozier)', ['Noah Kahan', 'Hozier'])
-
-downlaod_playlist([s], '.')

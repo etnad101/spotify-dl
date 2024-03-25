@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from spotify_api import SpotifyHandler
+from downloader import downlaod_playlist
 
 load_dotenv()
 
@@ -13,7 +14,4 @@ spotify = SpotifyHandler(CLIENT_ID, CLIENT_SECRET)
 
 playlist = spotify.get_playlist(playlist_id)
 
-for song in playlist:
-    print(song)
-
-print(len(playlist))
+downlaod_playlist(playlist, "./songs")
