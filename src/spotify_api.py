@@ -2,6 +2,19 @@ import requests
 
 BASE_URL = "https://api.spotify.com/v1"
 
+class Song:
+    def __init__(self, name, artists):
+        self.name = name
+        self.artists = artists
+
+    def __str__(self):
+        artists = ""
+        for artist in self.artists:
+            artists += artist + ", "
+        res = f"{self.name} by {artists}"
+
+        return res
+
 class SpotifyHandler:
 
     def __init__(self, client_id, client_secret):
@@ -21,7 +34,7 @@ class SpotifyHandler:
         if status == 200:
             return response.json()["access_token"]
         else:
-            print(f"Error getting access token - Code: {status}")
+            print(f"ERROR: Could not get access token - Code: {status}")
             print(response)
             quit()
 
@@ -48,7 +61,7 @@ class SpotifyHandler:
 
         status = response.status_code
         if status != 200:
-            print(f"Error accessing playlist- Code: {status}")
+            print(f"ERROR: could not access playlist - Code: {status}")
             print(response.json())
             quit()
 
@@ -60,8 +73,7 @@ class SpotifyHandler:
             for artist in item["track"]["artists"]:
                 artists.append(artist["name"])
 
-            song = {}
-            song[name] = artists
+            song = Song(name, artists)
 
             songs.append(song)
 
